@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from os import path
+from django.core.management.utils import get_random_secret_key
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = open("Pomodoro_Timer/secret_key.txt", "r")
+if path.exists("Pomodoro_Timer/secret_key.txt"):
+    SECRET_KEY = open("Pomodoro_Timer/secret_key.txt", "r")
+else:
+    with open("Pomodoro_Timer/secret_key.txt", "w") as file:
+        file.write(SECRET_KEY := get_random_secret_key())
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
